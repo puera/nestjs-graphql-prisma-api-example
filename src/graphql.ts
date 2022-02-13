@@ -7,6 +7,11 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export enum Direction {
+    ASC = "ASC",
+    DESC = "DESC"
+}
+
 export class CreateDonationInput {
     count: number;
     displayName: string;
@@ -14,7 +19,12 @@ export class CreateDonationInput {
     mobile?: Nullable<string>;
     team?: Nullable<string>;
     message?: Nullable<string>;
-    createAt?: Nullable<DateTime>;
+    createdAt?: Nullable<DateTime>;
+}
+
+export class OrderByParams {
+    field?: Nullable<string>;
+    direction?: Nullable<Direction>;
 }
 
 export class Donation {
@@ -25,11 +35,11 @@ export class Donation {
     mobile?: Nullable<string>;
     team?: Nullable<string>;
     message?: Nullable<string>;
-    createAt?: Nullable<DateTime>;
+    createdAt?: Nullable<DateTime>;
 }
 
 export abstract class IQuery {
-    abstract donations(): Nullable<Donation>[] | Promise<Nullable<Donation>[]>;
+    abstract donations(orderBy?: Nullable<OrderByParams>): Nullable<Donation>[] | Promise<Nullable<Donation>[]>;
 
     abstract donation(id: number): Nullable<Donation> | Promise<Nullable<Donation>>;
 }

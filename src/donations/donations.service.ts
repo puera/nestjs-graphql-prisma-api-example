@@ -1,19 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { OrderByParams } from '../graphql';
+import { PrismaService } from '../../prisma/prisma.service';
+
 @Injectable()
 export class DonationsService {
-  create(createDonationInput: any) {
-    return 'This action adds a new donation';
+  constructor(private prisma: PrismaService) {}
+
+  create(createDonationInput: Prisma.DonationsCreateInput) {
+    return this.prisma.donations.create({
+      data: createDonationInput,
+    });
   }
 
-  findAll() {
-    return [
-      {
-        exampleField: 1,
+  findAll(orderBy?: OrderByParams) {
+    const { field = 'createdAt', direction = 'desc' } = orderBy || {};
+    return this.prisma.donations.findMany({
+      orderBy: {
+        [field]: direction,
       },
-    ];
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} donation`;
+  findOne({ id }: Prisma.DonationsWhereUniqueInput) {
+    return this.prisma.donations.findUnique({
+      where: { id },
+    });
   }
 }
