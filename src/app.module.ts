@@ -20,6 +20,10 @@ import { DonationsModule } from './donations/donations.module';
           DESC: 'desc',
         },
       },
+      subscriptions: {
+        'subscriptions-transport-ws': true,
+        'graphql-ws': true,
+      },
     }),
     DonationsModule,
   ],
